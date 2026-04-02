@@ -21,6 +21,14 @@ spring:
         enabled: true
         change-log: classpath:/db/changelog/db.changelog-master.xml
 
+    kafka:
+      bootstrap-servers: kafka:29092  # internal в Docker
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        properties:
+          spring.json.add.type.info: true
+
 server:
     port: 8080
 

@@ -2,21 +2,27 @@ package com.example.tasktracker.application.usecase;
 
 import com.example.tasktracker.application.dto.CreateTaskRequest;
 import com.example.tasktracker.domain.task.entity.Task;
+import com.example.tasktracker.domain.task.event.TaskCreatedEvent;
 import com.example.tasktracker.domain.task.repository.TaskRepositoryPort;
 import com.example.tasktracker.domain.user.exception.UserNotFoundException;
 import com.example.tasktracker.domain.user.repository.UserRepositoryPort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
 public class PostTaskUseCaseImpl implements PostTaskUseCase {
     private final TaskRepositoryPort taskRepository;
     private final UserRepositoryPort userRepository;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public PostTaskUseCaseImpl(TaskRepositoryPort taskRepository, UserRepositoryPort userRepository) {
+    public PostTaskUseCaseImpl(TaskRepositoryPort taskRepository, UserRepositoryPort userRepository,
+                               KafkaTemplate<String, Object> kafkaTemplate) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.kafkaTemplate = kafkaTemplate;
 
     }
     @Override
@@ -41,5 +47,11 @@ public class PostTaskUseCaseImpl implements PostTaskUseCase {
         return saved.getId();
     }
 
-    public void sendTaskCreatedEvent(Task saved) {}
+    private void sendTaskCreatedEvent(Task saved) {
+        TaskCreatedEvent event = new TaskCreatedEvent(
+                saved.getId(), saved.getName(), saved.getDescription(),
+                saved.getAssigneeId(), Instant.now()
+        );
+        kafkaTemplate.send("task.created", saved.getId().toString(), event);
+    }
 }
