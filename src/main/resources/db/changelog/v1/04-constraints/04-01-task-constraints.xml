@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="04-01-task-constraints" author="Aidar">
+        <!-- Внешний ключ (работает в любой версии) -->
+        <addForeignKeyConstraint
+                baseTableSchemaName="tasktracker_schema"
+                baseTableName="tasks"
+                baseColumnNames="assignee_id"
+                referencedTableSchemaName="tasktracker_schema"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_tasks_assignee"
+                onDelete="SET NULL"/>
+
+        <sql>
+            ALTER TABLE tasktracker_schema.tasks
+            ADD CONSTRAINT chk_task_status
+            CHECK (status IN ('CREATED', 'ASSIGNED', 'IN_PROGRESS', 'DONE', 'CANCELLED'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

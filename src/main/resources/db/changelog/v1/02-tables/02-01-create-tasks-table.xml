@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="02-02-create-tasks-table" author="Aidar">
+        <preConditions onFail="HALT">
+            <not>
+                <tableExists schemaName="tasktracker_schema" tableName="tasks"/>
+            </not>
+        </preConditions>
+
+        <createTable schemaName="tasktracker_schema" tableName="tasks">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="assignee_id" type="uuid"/>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="tasktracker_schema" tableName="tasks"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

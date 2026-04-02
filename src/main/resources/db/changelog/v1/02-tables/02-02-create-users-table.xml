@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="02-01-create-users-table" author="Aidar">
+
+        <preConditions onFail="HALT">
+            <not>
+                <tableExists schemaName="tasktracker_schema" tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable schemaName="tasktracker_schema" tableName="users">
+            <column  name="id" type="uuid" defaultValueComputed="gen_random_uuid()" autoIncrement="false">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)" >
+                <constraints nullable="false" unique="true" />
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="users" schemaName="tasktracker_schema"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

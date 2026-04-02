@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <include file="00-enable-pgcrypto.xml" relativeToChangelogFile="true"/>
+    <include file="v1/01-create-tasktracker-schema.xml" relativeToChangelogFile="true"/>
+    <include file="v1/02-tables/02-01-create-tasks-table.xml" relativeToChangelogFile="true"/>
+    <include file="v1/02-tables/02-02-create-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="v1/03-indexes/03-01-create-task-indexes.xml" relativeToChangelogFile="true"/>
+    <include file="v1/03-indexes/03-02-user-indexes.xml" relativeToChangelogFile="true"/>
+    <include file="v1/04-constraints/04-01-task-constraints.xml" relativeToChangelogFile="true"/>
+    <include file="v1/04-constraints/04-02-user-constraints.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
