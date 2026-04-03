@@ -5,7 +5,6 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-orange.svg)](https://postgresql.org/)
 [![Kafka](https://img.shields.io/badge/Kafka-7.5-red.svg)](https://kafka.apache.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 REST API для управления задачами с Kafka events.
 
@@ -34,7 +33,7 @@ Scale:       Pagination + UUID + Indexes (10k users / 100k tasks ✅)
 
 ```bash
 # Клонировать и запустить
-git clone https://github.com/YarullinAL/tasktracker.git
+git clone https://github.com/hellraze/tasktracker.git
 cd tasktracker
 docker-compose up -d
 
